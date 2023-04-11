@@ -8,3 +8,13 @@ class RestaurantsSerializer(serializers.ModelSerializer):
     class Meta:
         model=Restaurants
         fields=('RestaurantId','RestaurantName','RestaurantIntro')
+
+class CoursesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Courses
+        fields=('CourseId','CourseName','Restaurant','CourseDescription')
+
+class DishesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Dishes
+        fields=('DishId','DishName','Restaurant','Course','recipe','taste','price')

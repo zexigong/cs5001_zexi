@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%rb#)j4e_t)i*prk!570h%k^e#%*^ply(pb5hfiijk+k^=-ub@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'RestaurantOwner.apps.RestaurantownerConfig', # Add the app
 ]
 
-# May need: CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
-    'corsheader.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,8 +80,10 @@ WSGI_APPLICATION = 'MenuReview.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # connect to my mongodb
     'default': {
         'ENGINE': 'djongo',
+        'NAME' : 'MenuReview',
         'CLIENT': {
             'host' : 'mongodb+srv://zexigong721:GKWy8pX0qOB45YGI@menureview.3n79h2x.mongodb.net/?retryWrites=true&w=majority',
             'name' : 'MenuReview',
