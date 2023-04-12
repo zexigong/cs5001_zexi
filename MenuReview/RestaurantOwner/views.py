@@ -11,7 +11,7 @@ from RestaurantOwner.serializers import RestaurantsSerializer, CoursesSerializer
 @csrf_exempt
 def restaurantApi(request,id=0):
     if request.method == 'GET':
-        restaurants = Restaurants.object.all()
+        restaurants = Restaurants.objects.all()
         restaurants_serializer=RestaurantsSerializer(restaurants,many=True)
         return JsonResponse(restaurants_serializer.data,safe=False)
     elif request.method == 'POST':
@@ -23,13 +23,13 @@ def restaurantApi(request,id=0):
         return JsonResponse('Failed to Add',safe=False)
     elif request.method == 'PUT':
         restaurants_data = JSONParser().parse(request)
-        restaurant = Restaurants.object.get(RestaurantId=restaurants_data['RestaurantId'])
+        restaurant = Restaurants.objects.get(RestaurantId=restaurants_data['RestaurantId'])
         restaurants_serializer=RestaurantsSerializer(restaurant,data=restaurants_data)
         if restaurants_serializer.is_valid():
             restaurants_serializer.save()
             return JsonResponse('Updated Successfully', safe=False)
         return JsonResponse('Failed to Update',safe=False)
     elif request.method == 'DELETE':
-        restaurant = Restaurants.object.get(RestaurantId=id)
+        restaurant = Restaurants.objects.get(RestaurantId=id)
         restaurant.delete()
         return JsonResponse('Deleted Successfully',safe=False)
