@@ -11,7 +11,9 @@ from RestaurantOwner.serializers import RestaurantsSerializer, CoursesSerializer
 @csrf_exempt
 def restaurantApi(request,id=0):
     if request.method == 'GET':
-        restaurants = Restaurants.objects.all()
+        page = int(request.GET.get('page', 1))
+        items_per_page = int(request.GET.get('itemsPerPage', 100))
+        restaurants = Restaurants.objects.all()[(page-1)*items_per_page:page*items_per_page]
         restaurants_serializer=RestaurantsSerializer(restaurants,many=True)
         return JsonResponse(restaurants_serializer.data,safe=False)
     elif request.method == 'POST':
