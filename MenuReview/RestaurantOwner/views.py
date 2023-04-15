@@ -8,16 +8,23 @@ from RestaurantOwner.serializers import RestaurantsSerializer, CoursesSerializer
 
 # Create your views here.
 
-@csrf_exempt
-def pagination(model,request):
+
+def pagination(object_list,request):
     page = int(request.GET.get('page', 1))
     items_per_page = int(request.GET.get('itemsPerPage', 100))
-    return model.objects.all()[(page-1)*items_per_page:page*items_per_page]
+    return object_list[(page-1)*items_per_page:page*items_per_page]
 
 
+def sort(object_list,request):
+    sort_by = request.GET.get('sortBy', 'RestaurantId')
+    sort_desc = bool(request.GET.get('sortDesc', 0))
+    return
+
+
+@csrf_exempt
 def restaurantApi(request,id=0):
     if request.method == 'GET':
-        restaurants = pagination(Restaurants,request)
+        restaurants = pagination(Restaurants.objects.all(),request)
         restaurants_serializer=RestaurantsSerializer(restaurants,many=True)
         return JsonResponse(restaurants_serializer.data,safe=False)
     elif request.method == 'POST':
