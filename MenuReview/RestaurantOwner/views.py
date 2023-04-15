@@ -9,11 +9,15 @@ from RestaurantOwner.serializers import RestaurantsSerializer, CoursesSerializer
 # Create your views here.
 
 @csrf_exempt
+def pagination(model,request):
+    page = int(request.GET.get('page', 1))
+    items_per_page = int(request.GET.get('itemsPerPage', 100))
+    return model.objects.all()[(page-1)*items_per_page:page*items_per_page]
+
+
 def restaurantApi(request,id=0):
     if request.method == 'GET':
-        page = int(request.GET.get('page', 1))
-        items_per_page = int(request.GET.get('itemsPerPage', 100))
-        restaurants = Restaurants.objects.all()[(page-1)*items_per_page:page*items_per_page]
+        restaurants = pagination(Restaurants,request)
         restaurants_serializer=RestaurantsSerializer(restaurants,many=True)
         return JsonResponse(restaurants_serializer.data,safe=False)
     elif request.method == 'POST':
