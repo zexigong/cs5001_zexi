@@ -17,4 +17,4 @@ class CoursesSerializer(serializers.ModelSerializer):
 class DishesSerializer(serializers.ModelSerializer):
     class Meta:
         model=Dishes
-        fields=('DishId','DishName','Restaurant','Course','recipe','taste','price')
+        fields=('DishId','DishName','Restaurant','Taste','Price','Rating')
