@@ -24,6 +24,31 @@ class RestaurantViewGetTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
+    def test_restaurent_sortby_name(self):
+        response = self.client.get('/restaurant' + '?sortBy=RestaurantName')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["RestaurantName"], 'a 0')
+
+    def test_restaurent_sortby_name_desc(self):
+        response = self.client.get('/restaurant' + '?sortBy=RestaurantName&sortDesc=1')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["RestaurantName"], 'a 2')
+
+    def test_restaurent_sortby_id_desc(self):
+        response = self.client.get('/restaurant' + '?sortBy=RestaurantId&sortDesc=1')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["RestaurantName"], 'a 2')
+
+    def test_restaurent_search(self):
+        response = self.client.get('/restaurant' + '?search=2')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+    def test_restaurent_search(self):
+        response = self.client.get('/restaurant' + '?search=c')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 0)
+
 class RestaurantViewPostTest(TestCase):
     @classmethod
     def setUpTestData(cls):

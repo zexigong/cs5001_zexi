@@ -18,14 +18,26 @@ def pagination(object_list,request):
 def sort(object_list,request):
     sort_by = request.GET.get('sortBy', 'RestaurantId')
     sort_desc = bool(request.GET.get('sortDesc', 0))
-    return
+    if sort_desc:
+        return object_list.order_by('-' + sort_by).values()
+    return object_list.order_by(sort_by).values()
+
+
+def search_restaurant(object_list,key_word):
+    res = object_list.filter(RestaurantName__icontains=key_word).values() | object_list.filter(RestaurantIntro__icontains=key_word).values()
+    return res
 
 
 @csrf_exempt
 def restaurantApi(request,id=0):
+    restaurants = Restaurants.objects.all()
     if request.method == 'GET':
-        restaurants = pagination(Restaurants.objects.all(),request)
-        restaurants_serializer=RestaurantsSerializer(restaurants,many=True)
+        key_word = request.GET.get('search')
+        if key_word:
+            restaurants = search_restaurant(restaurants, key_word)
+        restaurants_sort = sort(restaurants,request)
+        restaurants_page = pagination(restaurants_sort,request)
+        restaurants_serializer=RestaurantsSerializer(restaurants_page,many=True)
         return JsonResponse(restaurants_serializer.data,safe=False)
     elif request.method == 'POST':
         restaurants_data = JSONParser().parse(request)
