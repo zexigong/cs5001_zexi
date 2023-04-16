@@ -118,7 +118,7 @@ class DishViewGetTest(TestCase):
         self.assertEqual(len(response.json()), 12)
 
     def test_dish_get_pagination(self):
-        # Get second page and confirm it has (exactly) remaining 1 item
+        # Get the third page and confirm it has (exactly) remaining 2 items
         response = self.client.get('/dish'+'?page=3'+'&itemsPerPage=5')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 2)
