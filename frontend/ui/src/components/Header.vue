@@ -4,7 +4,7 @@
     &nbsp;
     <router-link to="/restaurant">Restaurant</router-link>
     &nbsp;
-    <router-link to="/restaurant">Menu</router-link>
+    <router-link to="/dish">Menu</router-link>
   </div>
 </template>
 

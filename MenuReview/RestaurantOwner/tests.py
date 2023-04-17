@@ -1,6 +1,6 @@
 from django.test import TestCase
 # from django.urls import reverse
-from RestaurantOwner.models import Restaurants, Courses, Dishes
+from RestaurantOwner.models import Restaurants, Dishes
 # Create your tests here.
 
 class RestaurantViewGetTest(TestCase):

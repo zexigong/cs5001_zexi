@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Home from "@/components/Home.vue";
 import Restaurant from "@/components/Restaurant.vue";
 import AddRestaurant from "@/components/AddRestaurant.vue";
+import Menu from "@/components/Menu.vue";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
@@ -15,6 +16,7 @@ const routes = [
   { path: "/", component: Home, name: "home" },
   { path: "/restaurant", component: Restaurant, name: "restaurant" },
   { path: "/restaurant/add", component: AddRestaurant, name: "add" },
+  { path: "/dish", component: Menu, name: "dish" },
 ];
 Vue.use(VueRouter);
 

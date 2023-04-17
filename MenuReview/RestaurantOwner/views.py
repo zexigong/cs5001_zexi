@@ -50,6 +50,7 @@ def restaurantApi(request,id=0):
         key_word = request.GET.get('search')
         if key_word:
             restaurants = search_restaurant(restaurants, key_word)
+        restaurants_num = len(restaurants)
         restaurants_sort = sort(restaurants,request, "RestaurantId")
         restaurants_page = pagination(restaurants_sort,request)
         restaurants_serializer=RestaurantsSerializer(restaurants_page,many=True)
