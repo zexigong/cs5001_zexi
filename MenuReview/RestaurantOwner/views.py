@@ -12,12 +12,14 @@ from RestaurantOwner.serializers import RestaurantsSerializer, CoursesSerializer
 def pagination(object_list,request):
     page = int(request.GET.get('page', 1))
     items_per_page = int(request.GET.get('itemsPerPage', 100))
+    if items_per_page == -1:
+        items_per_page = 1000
     return object_list[(page-1)*items_per_page:page*items_per_page]
 
 
 def sort(object_list,request,default):
     sort_by = request.GET.get('sortBy', default)
-    sort_desc = bool(request.GET.get('sortDesc', 0))
+    sort_desc = request.GET.get('sortDesc', 'false') == 'true'
     if sort_desc:
         return object_list.order_by('-' + sort_by).values()
     return object_list.order_by(sort_by).values()
@@ -54,7 +56,7 @@ def restaurantApi(request,id=0):
         restaurants_sort = sort(restaurants,request, "RestaurantId")
         restaurants_page = pagination(restaurants_sort,request)
         restaurants_serializer=RestaurantsSerializer(restaurants_page,many=True)
-        return JsonResponse(restaurants_serializer.data,safe=False)
+        return JsonResponse({'itemsNum': restaurants_num, 'data':restaurants_serializer.data},safe=False)
     elif request.method == 'POST':
         restaurants_data = JSONParser().parse(request)
         restaurants_serializer=RestaurantsSerializer(data=restaurants_data)

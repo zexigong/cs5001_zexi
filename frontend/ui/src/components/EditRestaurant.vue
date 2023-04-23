@@ -1,12 +1,8 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="dialog" width="888">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on"> Add Restaurant </v-btn>
-      </template>
-
       <v-card>
-        <v-card-title class="text-h5 grey lighten-2"> Add Restaurant </v-card-title>
+        <v-card-title class="text-h5 grey lighten-2"> Edit Restaurant </v-card-title>
         <v-card-text>
           <v-form v-model="valid">
             <v-container>
@@ -39,7 +35,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="second" text @click="dialog = false"> Cancel </v-btn>
-          <v-btn color="primary" text @click="onAdd"> Add </v-btn>
+          <v-btn color="primary" text @click="onUpdate"> Update </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -51,9 +47,19 @@
   </div>
 </template>
 <script>
-import { addRestaurant } from "@/rest";
+import { updateRestaurant } from "@/rest";
 export default {
-  name: "AddRestaurant",
+  name: "EditRestaurant",
+  props: {
+    triggerEdit: {
+      type: Boolean,
+      default: false,
+    },
+    restaurantToEdit: {
+      type: Object,
+    },
+  },
+
   data() {
     return {
       valid: false,
@@ -65,12 +71,14 @@ export default {
       ],
       restaurantName: "",
       restaurantIntro: "",
+      restaurantId: "",
       text: "",
     };
   },
   methods: {
-    async onAdd() {
-      const result = await addRestaurant({
+    async onUpdate() {
+      const result = await updateRestaurant({
+        RestaurantId: this.restaurantId,
         RestaurantName: this.restaurantName,
         RestaurantIntro: this.restaurantIntro,
       });
@@ -78,6 +86,15 @@ export default {
       this.dialog = false;
       this.dialog2 = true;
       this.$emit("fetch-data");
+    },
+  },
+  watch: {
+    triggerEdit() {
+      console.log(this.restaurantToEdit);
+      this.restaurantName = this.restaurantToEdit.RestaurantName;
+      this.restaurantIntro = this.restaurantToEdit.RestaurantIntro;
+      this.restaurantId = this.restaurantToEdit.RestaurantId;
+      this.dialog = true;
     },
   },
 };
