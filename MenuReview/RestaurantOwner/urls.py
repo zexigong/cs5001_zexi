@@ -1,3 +1,4 @@
+"""Set up Api url patterns"""
 from django.urls import re_path
 from RestaurantOwner import views
 
